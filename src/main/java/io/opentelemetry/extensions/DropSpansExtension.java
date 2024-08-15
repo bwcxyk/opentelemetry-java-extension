@@ -5,6 +5,7 @@ import static io.opentelemetry.api.common.AttributeKey.stringKey;
 import io.opentelemetry.api.common.AttributeKey;
 import io.opentelemetry.api.trace.SpanKind;
 import io.opentelemetry.contrib.sampler.RuleBasedRoutingSampler;
+import io.opentelemetry.contrib.sampler.RuleBasedRoutingSamplerBuilder;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizer;
 import io.opentelemetry.sdk.autoconfigure.spi.AutoConfigurationCustomizerProvider;
 import io.opentelemetry.sdk.trace.samplers.Sampler;
@@ -20,10 +21,15 @@ public class DropSpansExtension implements AutoConfigurationCustomizerProvider {
   @Override
   public void customize(AutoConfigurationCustomizer autoConfiguration) {
     // Set the sampler to be the default parentbased_always_on, but drop calls listed in the env variable
-    final var dropSpansEnv = System.getenv("OTEL_DROP_SPANS");
+    String dropSpansEnv = System.getenv("OTEL_DROP_SPANS");
     if (dropSpansEnv != null) {
-      final var dropSpanBuilder = RuleBasedRoutingSampler.builder(SpanKind.SERVER, Sampler.parentBased(Sampler.alwaysOn()));
-      for (var span : dropSpansEnv.split(",")) {
+      // 使用 RuleBasedRoutingSamplerBuilder 直接声明构建器
+      RuleBasedRoutingSamplerBuilder dropSpanBuilder = RuleBasedRoutingSampler.builder(
+          SpanKind.SERVER,
+          Sampler.parentBased(Sampler.alwaysOn())
+      );
+
+      for (String span : dropSpansEnv.split(",")) {
         dropSpanBuilder.drop(URL_PATH, span);
       }
 

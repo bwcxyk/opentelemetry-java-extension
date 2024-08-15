@@ -51,6 +51,10 @@ dependencies {
     otel("io.opentelemetry.javaagent:opentelemetry-javaagent:${versions.opentelemetryJavaagent}")
 }
 
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
 //Produces a copy of upstream javaagent with this extension jar included inside it
 //The location of extension directory inside agent jar is hard-coded in the agent source code
 tasks.register('extendedAgent', Jar) {
@@ -73,7 +77,7 @@ tasks.register('extendedAgent', Jar) {
 
 tasks {
     compileJava {
-        options.release.set(17)
+        options.release.set(8)
     }
 
     assemble.dependsOn(extendedAgent)
