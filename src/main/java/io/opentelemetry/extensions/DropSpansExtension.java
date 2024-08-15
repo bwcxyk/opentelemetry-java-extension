@@ -21,7 +21,7 @@ public class DropSpansExtension implements AutoConfigurationCustomizerProvider {
   @Override
   public void customize(AutoConfigurationCustomizer autoConfiguration) {
     // Set the sampler to be the default parentbased_always_on, but drop calls listed in the env variable
-    String dropSpansEnv = System.getenv("OTEL_DROP_SPANS");
+    String dropSpansEnv = System.getenv("OTEL_EXCLUDE_URL_PATHS");
     if (dropSpansEnv != null) {
       // 使用 RuleBasedRoutingSamplerBuilder 直接声明构建器
       RuleBasedRoutingSamplerBuilder dropSpanBuilder = RuleBasedRoutingSampler.builder(
