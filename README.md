@@ -35,3 +35,4 @@ spec:
 * [Embedded extension](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/examples/extension/README.md#embed-extensions-in-the-opentelemetry-agent)
 * [NewRelic exemples](https://github.com/newrelic/newrelic-opentelemetry-examples)
 * [vmaleze extension](https://github.com/vmaleze/opentelemetry-java-ignore-spans)
+* [lumigo-io custom](https://github.com/lumigo-io/opentelemetry-java-distro/blob/main/custom)
