@@ -1,10 +1,10 @@
 # OpenTelemetry spans drop extension
 
-This project embeds a simple extension in the opentelemetry javaagent that will drop spans based on the env variable `OTEL_EXCLUDE_URL_PATHS`.
+This project embeds a simple extension in the OpenTelemetry Java agent that drops spans based on the environment variables OTEL_EXCLUDE_URL_PATHS and OTEL_EXCLUDE_DB_STATEMENT.
 
 ## Usage
 
-Add the `OTEL_EXCLUDE_URL_PATHS` env variable and set the spans to drop using the `,` as a separator
+Add the OTEL_EXCLUDE_URL_PATHS or OTEL_EXCLUDE_DB_STATEMENT environment variables, and set the spans to be dropped by separating multiple values with a comma (,).
 
 ### [Java instrumentation](https://opentelemetry.io/docs/instrumentation/java/automatic/)
 Simply download the [latest](https://github.com/bwcxyk/opentelemetry-java-extension/releases) version instead of the javaagent, and you are good to go.  
@@ -23,6 +23,8 @@ spec:
       # Will drop spans towards health and metrics endpoints
       - name: OTEL_EXCLUDE_URL_PATHS
         value: .*/health,.*/metrics
+      - name: OTEL_EXCLUDE_DB_STATEMENT
+        value: PING,QUIT
     image: bwcxyk/opentelemetry-javaagent:2.6.0
 ```
 

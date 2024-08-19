@@ -26,9 +26,18 @@ public class DropSpansExtension implements AutoConfigurationCustomizerProvider {
   private static final AttributeKey<String> HTTP_TARGET = stringKey("http.target");
   private static final AttributeKey<String> HTTP_URL = stringKey("http.url");
   private static final AttributeKey<String> URL_FULL = stringKey("url.full");
-  // 定义了环境变量模式，用于匹配需要丢弃的Span的HTTP路径和数据库语句
-  private static final String dropSpansEnv = ".*/actuator/health";
-  private static final String dropDbEnv = "PING,QUIT,AUTH*,select .* from dual";
+
+  // 设置默认值
+  private static final String defaultUrlPaths = ".*/actuator/health";
+  private static final String defaultDbStatements = "PING";
+
+  // 获取环境变量，并在未设置时使用默认值
+  private static final String excludeUrlPaths = System.getenv("OTEL_EXCLUDE_URL_PATHS") != null 
+      ? System.getenv("OTEL_EXCLUDE_URL_PATHS") 
+      : defaultUrlPaths;
+  private static final String excludeDbStatements = System.getenv("OTEL_EXCLUDE_DB_STATEMENT") != null 
+      ? System.getenv("OTEL_EXCLUDE_DB_STATEMENT") 
+      : defaultDbStatements;
 
   /**
    * 自定义配置方法，添加了自定义的Sampler定制器，用于分别定制服务器和客户端的Span过滤逻辑。
@@ -55,12 +64,12 @@ public class DropSpansExtension implements AutoConfigurationCustomizerProvider {
             RuleBasedRoutingSampler.builder(SpanKind.SERVER, sampler);
 
     // 遍历并匹配预定义的HTTP路径，配置对应的Span丢弃规则
-    for (String span : dropSpansEnv.split(",")) {
+    for (String span : excludeUrlPaths.split(",")) {
       dropSpanBuilder.drop(URL_PATH, span);
       dropSpanBuilder.drop(HTTP_TARGET, span);
     }
     // 输出配置的环境变量模式，便于调试和日志记录
-    System.out.println("dropSpansEnv:"+dropSpansEnv);
+    System.out.println("excludeUrlPaths:"+ excludeUrlPaths);
     return dropSpanBuilder.build();
   }
 
@@ -77,14 +86,14 @@ public class DropSpansExtension implements AutoConfigurationCustomizerProvider {
             RuleBasedRoutingSampler.builder(SpanKind.CLIENT, sampler);
 
     // 遍历并匹配预定义的URL和数据库语句，配置对应的Span丢弃规则
-    for (String span : dropDbEnv.split(",")) {
+    for (String span : excludeDbStatements.split(",")) {
       dropSpanBuilder.drop(HTTP_URL, span);
       dropSpanBuilder.drop(URL_FULL, span);
       dropSpanBuilder.drop(DB_STATE, span);
     }
 
     // 输出配置的环境变量模式，便于调试和日志记录
-    System.out.println("dropDbEnv:"+dropDbEnv);
+    System.out.println("excludeDbStatements:"+ excludeDbStatements);
     return dropSpanBuilder.build();
   }
 }
