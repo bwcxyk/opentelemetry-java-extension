@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  debian_deploy:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
