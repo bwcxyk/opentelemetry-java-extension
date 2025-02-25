@@ -1,10 +1,8 @@
 name: docker-image
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  release:
+    types: [published]
 
 jobs:
   deploy:
@@ -39,4 +37,4 @@ jobs:
         push: true
         file: Dockerfile
         tags: |
-          yaokun/opentelemetry-javaagent:2.9.0
+          yaokun/opentelemetry-javaagent:${{ github.event.release.tag_name }}
