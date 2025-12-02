@@ -25,13 +25,13 @@ spec:
         value: .*/health,.*/metrics
       - name: OTEL_EXCLUDE_DB_STATEMENT
         value: PING,QUIT
-    image: bwcxyk/opentelemetry-javaagent:2.6.0
+    image: bwcxyk/opentelemetry-javaagent:2.21.0
 ```
 
 ## Current versions
-* Extension version => [2.6.0](https://github.com/bwcxyk/opentelemetry-java-extension/releases)
-* [OpenTelemetry java agent](https://github.com/open-telemetry/opentelemetry-java-instrumentation) => 2.6.0
-* [OpenTelemetry SDK](https://github.com/open-telemetry/opentelemetry-java) => 1.40.0
+* Extension version => [2.21.0](https://github.com/bwcxyk/opentelemetry-java-extension/releases)
+* [OpenTelemetry java agent](https://github.com/open-telemetry/opentelemetry-java-instrumentation) => 2.21.0
+* [OpenTelemetry SDK](https://github.com/open-telemetry/opentelemetry-java) => 1.49.0
 
 ## References :
 * [Embedded extension](https://github.com/open-telemetry/opentelemetry-java-instrumentation/blob/main/examples/extension/README.md#embed-extensions-in-the-opentelemetry-agent)
