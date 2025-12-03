@@ -5,10 +5,11 @@ plugins {
 
 ext {
     versions = [
-            opentelemetrySdk           : "1.55.0",
-            opentelemetryJavaagent     : "2.21.0",
-            opentelemetryJavaagentAlpha: "2.21.0-alpha",
-            opentelemetryContribAlpha  : "1.50.0-alpha",
+            // opentelemetrySdk           : "1.56.0",
+            opentelemetryJavaagent     : "2.22.0",
+            // opentelemetryJavaagentAlpha: "2.22.0-alpha",
+            // opentelemetryContribAlpha  : "1.52.0-alpha",
+            opentelemetryCelSdk        : "1.52.0-alpha",
     ]
 }
 
@@ -26,11 +27,11 @@ configurations {
 
 
 dependencies {
-    implementation(platform("io.opentelemetry:opentelemetry-bom:${versions.opentelemetrySdk}"))
-    implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:${versions.opentelemetryJavaagent}"))
-    implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:${versions.opentelemetryJavaagentAlpha}"))
-
-    implementation("io.opentelemetry.contrib:opentelemetry-samplers:${versions.opentelemetryContribAlpha}")
+    //implementation(platform("io.opentelemetry:opentelemetry-bom:${versions.opentelemetrySdk}"))
+    //implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom:${versions.opentelemetryJavaagent}"))
+    //implementation(platform("io.opentelemetry.instrumentation:opentelemetry-instrumentation-bom-alpha:${versions.opentelemetryJavaagentAlpha}"))
+    //implementation("io.opentelemetry.contrib:opentelemetry-samplers:${versions.opentelemetryContribAlpha}")
+    implementation("io.opentelemetry.contrib:opentelemetry-cel-sampler:${versions.opentelemetryCelSdk}")
 
     compileOnly("io.opentelemetry:opentelemetry-sdk-extension-autoconfigure")
 
